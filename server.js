@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const server = express();
 const Project = require('./data/resources/project-model.js');
 const Resource = require('./data/resources/resource-model.js');
+const Task = require('./data/resources/task-model.js');
 server.use(helmet());
 server.use(express.json());
 
@@ -24,6 +25,16 @@ server.get('/resources', (req, res) => {
     })
     .catch(err => {
       res.status(500).json({ message: 'Error retrieving resources.' })
+    })
+})
+
+server.get('/tasks', (req, res) => {
+  Task.getTasks()
+    .then(response => {
+      res.status(200).json(response)
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error retrieving tasks.' })
     })
 })
 
@@ -54,5 +65,29 @@ server.post('/resources', (req, res) => {
       res.status(500).json({ message: 'Error adding resource' })
     })
 })
+
+server.post('/projects', (req, res) => {
+  const info = req.body;
+  Project.addProject(info)
+    .then(response => {
+      res.status(201).json(response)
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error adding project' })
+    })
+})
+
+server.post('/tasks', (req, res) => {
+  const info = req.body;
+  Task.addTask(info)
+    .then(response => {
+      res.status(201).json(response)
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Error adding task.' })
+    })
+})
+
+
 
 module.exports = server;
