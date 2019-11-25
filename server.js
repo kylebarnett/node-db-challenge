@@ -11,7 +11,9 @@ server.use(express.json());
 server.get('/projects', (req, res) => {
   Project.findProjects()
     .then(response => {
-      res.status(200).json(response)
+      res.status(200).json(response.map(value => {
+        return { ...value, completed: value.completed ? "true" : "false" }
+      }))
     })
     .catch(err => {
       res.status(500).json({ message: 'Error retrieving projects.' })
@@ -31,7 +33,9 @@ server.get('/resources', (req, res) => {
 server.get('/tasks', (req, res) => {
   Task.getTasks()
     .then(response => {
-      res.status(200).json(response)
+      res.status(200).json(response.map(value => {
+        return { ...value, completed: value.completed ? "true" : "false" }
+      }))
     })
     .catch(err => {
       res.status(500).json({ message: 'Error retrieving tasks.' })

@@ -15,5 +15,6 @@ function getResourceById(id) {
 }
 
 function addResource(info) {
+  info.completed === 0 ? false : true
   return db('resource').insert(info)
 }
