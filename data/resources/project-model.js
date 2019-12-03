@@ -2,7 +2,8 @@ const db = require('../dbConfig.js');
 
 module.exports = {
   findProjects,
-  addProject
+  addProject,
+  deleteProject
 }
 
 function findProjects() {
@@ -11,4 +12,8 @@ function findProjects() {
 
 function addProject(info) {
   return db('project').insert(info)
+}
+
+function deleteProject(id) {
+  return db('project').where({ id }).del()
 }
